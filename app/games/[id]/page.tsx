@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import ClientFormWrapper from './ClientFormWrapper';
 import { formatMatchTime } from '@/lib/utils';
 import { Match } from '@/lib/types';
@@ -11,8 +12,20 @@ interface PageProps {
 
 async function getMatch(id: string): Promise<Match | undefined> {
   try {
-    const res = await fetch('http://localhost:3000/api/matches');
-    if (!res.ok) throw new Error('Failed to fetch matches');
+    const headersList = await headers();
+    const host = headersList.get('host') || 'localhost:3000';
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+    
+    const res = await fetch(`${protocol}://${host}/api/matches`, {
+      cache: 'no-store'
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('API Error:', errorText);
+      throw new Error('Failed to fetch matches');
+    }
+
     const { data } = await res.json();
     return Array.isArray(data) ? data.find((m: Match) => m.id === Number(id)) : undefined;
   } catch (error) {
