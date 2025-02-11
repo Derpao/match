@@ -9,8 +9,7 @@ export async function GET() {
       .select(`
         id,
         teams_info,
-        matchtime,
-        image
+        matchtime
       `)
       .order('matchtime', { ascending: true })
 
@@ -32,7 +31,7 @@ export async function GET() {
         logoB: item.teams_info.logoB
       },
       matchTime: item.matchtime,
-      image: item.image
+      image: '/images/10000.webp' // Add static image path
     }))
 
     return NextResponse.json({ data: formattedData })

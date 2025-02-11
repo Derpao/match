@@ -13,7 +13,7 @@ async function getMatches(): Promise<Match[]> {
     // Get host from headers
     const headersList = await headers()
     const host = headersList.get('host') || 'localhost:3000'
-    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+    const protocol = process.env.NODE_ENV === 'production' ? 'http' : 'http'
     
     const res = await fetch(`${protocol}://${host}/api/matches`, {
       cache: 'no-store'
@@ -58,7 +58,7 @@ export default async function GamesPage() {
             <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow">
               <div className="h-[160px]">
                 <img
-                  src={m.image}
+                  src="/images/10000.webp"
                   alt={`${m.teams?.teamA || 'Team A'} vs ${m.teams?.teamB || 'Team B'}`}
                   className="w-full h-full object-cover"
                 />

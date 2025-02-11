@@ -62,7 +62,7 @@ export default async function Page({ params }: PageProps) {
       <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
         <div className="relative h-[200px]">
           <Image 
-            src={match.image} 
+            src="/images/10000.webp"
             alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
             fill
             className="object-cover"
