@@ -19,7 +19,7 @@ async function getMatch(id: string): Promise<Match | undefined> {
     
     const headersList = await headers();
     const host = headersList.get('host') || 'localhost:3000';
-    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+    const protocol = process.env.NODE_ENV === 'production' ? 'http' : 'http';
     
     const res = await fetch(`${protocol}://${host}/api/matches`, {
       cache: 'no-store'
