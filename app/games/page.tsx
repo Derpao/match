@@ -5,6 +5,11 @@ import { headers } from 'next/headers'
 
 async function getMatches(): Promise<Match[]> {
   try {
+    // Add artificial delay in development to see loading state
+    if (process.env.NODE_ENV === 'development') {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
     // Get host from headers
     const headersList = await headers()
     const host = headersList.get('host') || 'localhost:3000'
