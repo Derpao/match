@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Match } from '@/lib/types'
 import { formatMatchTime } from '@/lib/utils'
 import { headers } from 'next/headers'
+import Image from 'next/image'
 
 async function getMatches(): Promise<Match[]> {
   try {
@@ -56,32 +57,39 @@ export default async function GamesPage() {
             className="block"
           >
             <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow">
-              <div className="h-[160px]">
-                <img
+              <div className="h-[160px] relative">
+                <Image
                   src="/images/10000.webp"
                   alt={`${m.teams?.teamA || 'Team A'} vs ${m.teams?.teamB || 'Team B'}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
               
               <div className="p-3 bg-gray-50">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
-                    <img 
-                      src={m.teams.logoA} 
-                      alt={m.teams.teamA}
-                      className="w-8 h-8 object-contain"
-                    />
+                    <div className="relative w-8 h-8">
+                      <Image 
+                        src={m.teams.logoA} 
+                        alt={m.teams.teamA}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
                     <span className="mx-2 font-bold">{m.teams.teamA}</span>
                   </div>
                   <span className="mx-1 text-blue-600">VS</span>
                   <div className="flex items-center">
                     <span className="mx-2 font-bold">{m.teams.teamB}</span>
-                    <img 
-                      src={m.teams.logoB} 
-                      alt={m.teams.teamB}
-                      className="w-8 h-8 object-contain"
-                    />
+                    <div className="relative w-8 h-8">
+                      <Image 
+                        src={m.teams.logoB} 
+                        alt={m.teams.teamB}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
                   </div>
                 </div>
                 <p className="text-gray-600 text-sm">
