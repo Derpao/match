@@ -2,15 +2,19 @@ import Link from 'next/link'
 import { Match } from '@/lib/types'
 import { formatMatchTime } from '@/lib/utils'
 
-// ใช้ fetch ข้อมูลคู่ฟุตบอลจาก API ที่เราจะสร้าง
 async function getMatches(): Promise<Match[]> {
   try {
-    const res = await fetch('http://localhost:3000/api/matches', {
-      // ถ้าเป็น Production / Deploy จริง ให้ใช้ URL ของ server ที่แท้จริง
-      cache: 'no-store' 
-      // อาจใช้ 'force-cache' หรือ 'no-cache' ตามการใช้งาน
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+    const res = await fetch(`${baseUrl}/api/matches`, {
+      cache: 'no-store'
     })
-    if (!res.ok) throw new Error('Failed to fetch matches')
+    
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error('API Error:', errorText)
+      throw new Error('Failed to fetch matches')
+    }
+    
     const { data } = await res.json()
     return Array.isArray(data) ? data : []
   } catch (error) {
