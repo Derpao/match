@@ -12,14 +12,9 @@ interface PageProps {
 
 async function getMatch(id: string): Promise<Match | undefined> {
   try {
-    // Add artificial delay in development to see loading state
-    if (process.env.NODE_ENV === 'development') {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
-    
     const headersList = await headers();
     const host = headersList.get('host') || 'localhost:3000';
-    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+    const protocol = process.env.NODE_ENV === 'production' ? 'http' : 'http';
     
     const res = await fetch(`${protocol}://${host}/api/matches`, {
       cache: 'no-store'
@@ -62,7 +57,7 @@ export default async function Page({ params }: PageProps) {
       <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
         <div className="relative h-[200px]">
           <Image 
-            src={match.image} 
+            src="/images/10000.webp"
             alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
             fill
             className="object-cover"

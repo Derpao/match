@@ -9,7 +9,7 @@ export interface Match {
   id: number
   teams: Teams
   matchTime: string
-  image: string
+  
 }
 
 export interface PredictionData {

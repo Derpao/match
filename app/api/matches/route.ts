@@ -9,8 +9,7 @@ export async function GET() {
       .select(`
         id,
         teams_info,
-        matchtime,
-        image
+        matchtime
       `)
       .order('matchtime', { ascending: true })
 
@@ -31,8 +30,8 @@ export async function GET() {
         logoA: item.teams_info.logoA,
         logoB: item.teams_info.logoB
       },
-      matchTime: item.matchtime,
-      image: item.image
+      matchTime: item.matchtime
+      
     }))
 
     return NextResponse.json({ data: formattedData })
