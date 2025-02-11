@@ -1,11 +1,16 @@
 import Link from 'next/link'
 import { Match } from '@/lib/types'
 import { formatMatchTime } from '@/lib/utils'
+import { headers } from 'next/headers'
 
 async function getMatches(): Promise<Match[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
-    const res = await fetch(`${baseUrl}/api/matches`, {
+    // Get host from headers
+    const headersList = await headers()
+    const host = headersList.get('host') || 'localhost:3000'
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+    
+    const res = await fetch(`${protocol}://${host}/api/matches`, {
       cache: 'no-store'
     })
     
