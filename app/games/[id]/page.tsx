@@ -4,6 +4,7 @@ import Image from 'next/image';
 import ClientFormWrapper from './ClientFormWrapper';
 import { formatMatchTime } from '@/lib/utils';
 import { getMatch } from '@/lib/getMatches';
+import { formatDisplayMatchTime } from '@/lib/displayDateUtils';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -73,7 +74,7 @@ export default async function Page({ params }: PageProps) {
             </div>
           </div>
           <p className="text-center text-blue-100 mt-2 text-sm">
-            เวลาแข่ง: {formatMatchTime(match.matchTime)}
+            เวลาแข่ง: {formatDisplayMatchTime(match.matchTime)}
           </p>
         </div>
       </div>

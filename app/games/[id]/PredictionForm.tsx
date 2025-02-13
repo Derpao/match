@@ -4,7 +4,7 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { PHONE_REGEX, MAX_SCORE, MIN_SCORE } from '@/lib/constants'
 import { supabase } from '@/lib/supabaseClient'
-import { canPredict, getClosingTime } from '@/lib/utils'
+import { canPredictMatch, getMatchClosingTime } from '@/lib/displayDateUtils'
 
 interface PredictionFormProps {
   matchId: number
@@ -23,8 +23,8 @@ export default function PredictionForm({ matchId, teamNames, matchTime }: Predic
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const isPredictionAllowed = canPredict(matchTime)
-  const closingTime = getClosingTime(matchTime)
+  const isPredictionAllowed = canPredictMatch(matchTime)
+  const closingTime = getMatchClosingTime(matchTime)
 
   const validateForm = (): boolean => {
     if (!phoneNumber.match(PHONE_REGEX)) {

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { formatMatchTime } from '@/lib/utils'
 import { getMatches } from '@/lib/getMatches'
 import Loading from './loading'
+import { formatDisplayMatchTime } from '@/lib/displayDateUtils'
 
 async function MatchList() {
   const matches = await getMatches()
@@ -63,7 +64,7 @@ async function MatchList() {
                   </div>
                 </div>
                 <p className="text-gray-600 text-sm">
-                  เวลาแข่ง: {formatMatchTime(m.matchTime)}
+                  เวลาแข่ง: {formatDisplayMatchTime(m.matchTime)}
                 </p>
               </div>
             </div>
