@@ -189,7 +189,7 @@ export default function MatchManageForm() {
                         teamA: e.target.value
                       }
                     })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black"
                   />
                 </div>
                 <div>
@@ -204,7 +204,7 @@ export default function MatchManageForm() {
                         teamB: e.target.value
                       }
                     })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black"
                   />
                 </div>
               </div>
@@ -221,7 +221,7 @@ export default function MatchManageForm() {
                         logoA: e.target.value
                       }
                     })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black"
                   />
                 </div>
                 <div>
@@ -236,7 +236,7 @@ export default function MatchManageForm() {
                         logoB: e.target.value
                       }
                     })}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black"
                   />
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default function MatchManageForm() {
                       e.target.value,
                       formatDateTimeForInput(editingMatch.matchtime).time
                     )}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black"
                   />
                 </div>
                 <div>
@@ -264,7 +264,7 @@ export default function MatchManageForm() {
                       formatDateTimeForInput(editingMatch.matchtime).date,
                       e.target.value
                     )}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-black"
                   />
                 </div>
               </div>

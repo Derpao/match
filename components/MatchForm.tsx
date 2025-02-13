@@ -12,8 +12,8 @@ export default function MatchForm() {
     logoA: '',
     logoB: '',
     matchtime: '',
-    date: '',
-    time: ''
+    date: new Date().toISOString().split('T')[0], // กำหนดค่าเริ่มต้นเป็นวันที่ปัจจุบัน
+    time: '00:00' // กำหนดค่าเริ่มต้นเวลา
   })
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
@@ -22,19 +22,19 @@ export default function MatchForm() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const handleDateTimeChange = (date: string, time: string) => {
-    if (!date || !time) return
+  const handleDateTimeChange = (type: 'date' | 'time', value: string) => {
+    setFormData(prev => {
+      const newData = { ...prev, [type]: value };
+      
+      // ถ้ามีทั้งวันที่และเวลา ให้สร้าง matchtime
+      if (newData.date && newData.time) {
+        const [yearCE, month, day] = newData.date.split('-');
+        const yearBE = parseInt(yearCE) + 543;
+        newData.matchtime = `${day}/${month}/${yearBE} ${newData.time}`;
+      }
 
-    const [yearCE, month, day] = date.split('-')
-    const yearBE = parseInt(yearCE) + 543
-    const thaiDateTime = `${day}/${month}/${yearBE} ${time}`
-
-    setFormData(prev => ({
-      ...prev,
-      matchtime: thaiDateTime,
-      date,
-      time
-    }))
+      return newData;
+    });
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,7 +97,7 @@ export default function MatchForm() {
             type="text"
             value={formData.teamA}
             onChange={(e) => setFormData({ ...formData, teamA: e.target.value })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md text-black"
             required
           />
         </div>
@@ -107,7 +107,7 @@ export default function MatchForm() {
             type="text"
             value={formData.teamB}
             onChange={(e) => setFormData({ ...formData, teamB: e.target.value })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md text-black"
             required
           />
         </div>
@@ -117,7 +117,7 @@ export default function MatchForm() {
             type="text"
             value={formData.logoA}
             onChange={(e) => setFormData({ ...formData, logoA: e.target.value })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md text-black"
             required
           />
         </div>
@@ -127,7 +127,7 @@ export default function MatchForm() {
             type="text"
             value={formData.logoB}
             onChange={(e) => setFormData({ ...formData, logoB: e.target.value })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md text-black"
             required
           />
         </div>
@@ -138,8 +138,8 @@ export default function MatchForm() {
           <input
             type="date"
             value={formData.date}
-            onChange={(e) => handleDateTimeChange(e.target.value, formData.time)}
-            className="w-full p-2 border rounded-md"
+            onChange={(e) => handleDateTimeChange('date', e.target.value)}
+            className="w-full p-2 border rounded-md text-black"
             required
           />
         </div>
@@ -148,8 +148,8 @@ export default function MatchForm() {
           <input
             type="time"
             value={formData.time}
-            onChange={(e) => handleDateTimeChange(formData.date, e.target.value)}
-            className="w-full p-2 border rounded-md"
+            onChange={(e) => handleDateTimeChange('time', e.target.value)}
+            className="w-full p-2 border rounded-md text-black"
             required
           />
         </div>
