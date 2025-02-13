@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import ClientFormWrapper from './ClientFormWrapper';
-import { formatMatchTime } from '@/lib/utils';
 import { getMatch } from '@/lib/getMatches';
 import { formatDisplayMatchTime } from '@/lib/displayDateUtils';
 

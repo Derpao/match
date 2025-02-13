@@ -1,7 +1,6 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { formatMatchTime } from '@/lib/utils'
 import { getMatches } from '@/lib/getMatches'
 import Loading from './loading'
 import { formatDisplayMatchTime } from '@/lib/displayDateUtils'
