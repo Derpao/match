@@ -5,24 +5,21 @@ import { clearMatchesCache } from '@/lib/getMatches'
 export async function POST(request: NextRequest) {
   try {
     const token = request.headers.get('x-revalidate-token')
-    
-    if (token !== process.env.REVALIDATE_TOKEN) {
+
+    if (!token || token !== process.env.REVALIDATE_TOKEN) {
       return NextResponse.json({ message: 'Invalid token' }, { status: 401 })
     }
 
     // Clear in-memory cache
     clearMatchesCache()
-    
-    // Revalidate Next.js cache
+
+    // Revalidate data with tag
     revalidateTag('matches')
-    
-    return NextResponse.json({ 
-      revalidated: true, 
-      cacheCleared: true,
-      now: Date.now() 
-    })
-  } catch (err: unknown) {
-    const error = err instanceof Error ? err.message : 'Unknown error'
-    return NextResponse.json({ message: `Error revalidating: ${error}` }, { status: 500 })
+
+    return NextResponse.json({ revalidated: true, now: Date.now() })
+  } catch (error: unknown) {
+    console.error('Revalidation error:', error)
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ message: `Error revalidating: ${message}` }, { status: 500 })
   }
 }

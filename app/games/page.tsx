@@ -1,11 +1,11 @@
-export const dynamic = 'force-dynamic'
-
 import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { formatMatchTime } from '@/lib/utils'
 import { getMatches } from '@/lib/getMatches'
 import Loading from './loading'
+
+export const revalidate = 300 // Revalidate every 5 minutes
 
 async function MatchList() {
   const matches = await getMatches()

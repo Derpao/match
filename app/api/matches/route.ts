@@ -35,7 +35,12 @@ export async function GET() {
       image: item.image
     }))
 
-    return NextResponse.json({ data: formattedData })
+    const response = NextResponse.json({ data: formattedData })
+
+    // Set Cache-Control header for ISR
+    response.headers.set('Cache-Control', 's-maxage=300, stale-while-revalidate')
+
+    return response
   } catch (error) {
     console.error('Server error:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
