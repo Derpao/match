@@ -16,17 +16,11 @@ export async function GET() {
 
     if (error) {
       console.error('Database error:', error)
-      return NextResponse.json(
-        { error: 'Database query failed' },
-        { status: 500, headers: { 'Cache-Control': 'no-store' } }
-      )
+      return NextResponse.json({ error: 'Database query failed' }, { status: 500 })
     }
 
     if (!data) {
-      return NextResponse.json(
-        { data: [] },
-        { headers: { 'Cache-Control': 'no-store' } }
-      )
+      return NextResponse.json({ data: [] })
     }
 
     const formattedData: Match[] = data.map((item) => ({
@@ -41,15 +35,9 @@ export async function GET() {
       image: item.image
     }))
 
-    return NextResponse.json(
-      { data: formattedData },
-      { headers: { 'Cache-Control': 'no-store' } }
-    )
+    return NextResponse.json({ data: formattedData })
   } catch (error) {
     console.error('Server error:', error)
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500, headers: { 'Cache-Control': 'no-store' } }
-    )
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
