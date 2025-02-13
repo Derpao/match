@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 import { clearMatchesCache } from '@/lib/getMatches'
 
@@ -13,8 +13,9 @@ export async function POST(request: NextRequest) {
     // Clear in-memory cache
     clearMatchesCache()
     
-    // Revalidate Next.js cache
-    revalidateTag('matches')
+    // Revalidate specific paths
+    revalidatePath('/') // Revalidate home page
+    revalidatePath('/matches') // Revalidate matches page
     
     return NextResponse.json({ 
       revalidated: true, 
