@@ -5,8 +5,6 @@ import { formatMatchTime } from '@/lib/utils'
 import { getMatches } from '@/lib/getMatches'
 import Loading from './loading'
 
-export const revalidate = 300 // Revalidate every 5 minutes
-
 async function MatchList() {
   const matches = await getMatches()
 
