@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
 import { Match } from '@/lib/types'
 
-export const runtime = 'edge' // Use edge runtime for better performance
-
 export async function GET() {
   try {
     const { data, error } = await supabase
@@ -11,11 +9,10 @@ export async function GET() {
       .select(`
         id,
         teams_info,
-        matchtime
+        matchtime,
+        image
       `)
       .order('matchtime', { ascending: true })
-      .limit(10) // Limit initial load
-      .range(0, 9)
 
     if (error) {
       console.error('Database error:', error)
@@ -35,7 +32,7 @@ export async function GET() {
         logoB: item.teams_info.logoB
       },
       matchTime: item.matchtime,
-      image: '/images/10000.webp' // Add static image path
+      image: item.image
     }))
 
     return NextResponse.json({ data: formattedData })

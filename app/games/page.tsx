@@ -1,9 +1,13 @@
-import Link from 'next/link'
-import { formatMatchTime } from '@/lib/utils'
-import Image from 'next/image'
-import { getMatches } from '@/lib/getMatches'
+export const dynamic = 'force-dynamic';
 
-export default async function GamesPage() {
+import { Suspense } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { formatMatchTime } from '@/lib/utils'
+import { getMatches } from '@/lib/getMatches'
+import Loading from './loading'
+
+async function MatchList() {
   const matches = await getMatches()
 
   if (!matches || matches.length === 0) {
@@ -69,5 +73,13 @@ export default async function GamesPage() {
         ))}
       </div>
     </div>
+  )
+}
+
+export default function GamesPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <MatchList />
+    </Suspense>
   )
 }
