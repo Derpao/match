@@ -3,34 +3,33 @@
 import { useState } from 'react'
 
 export default function RevalidateButton() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [message, setMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState<string>('')
 
   const handleRevalidate = async () => {
+    setIsLoading(true)
+    setStatus('กำลังล้างแคช...')
+    
     try {
-      setStatus('loading')
       const res = await fetch('/api/revalidate', {
         method: 'POST',
         headers: {
-          'x-revalidate-token': '6f50d78788f8056b5d383f7fbe7935c6c62ad3646a37f0b60ad0ddeeff5288b3'
+          'x-revalidate-token': process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''
         }
       })
-
+      
       const data = await res.json()
       
-      if (!res.ok) throw new Error(data.message || 'Revalidation failed')
-      
-      setStatus('success')
-      setMessage('Cache revalidated successfully!')
-      
-      setTimeout(() => {
-        setStatus('idle')
-        setMessage('')
-      }, 3000)
-
-    } catch (error) {
-      setStatus('error')
-      setMessage(error instanceof Error ? error.message : 'An error occurred')
+      if (res.ok) {
+        setStatus('ล้างแคชสำเร็จ')
+      } else {
+        setStatus(`เกิดข้อผิดพลาด: ${data.message}`)
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ'
+      setStatus(`เกิดข้อผิดพลาดในการล้างแคช: ${errorMessage}`)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -38,21 +37,14 @@ export default function RevalidateButton() {
     <div className="space-y-2">
       <button
         onClick={handleRevalidate}
-        disabled={status === 'loading'}
-        className={`
-          px-4 py-2 rounded-md text-white font-medium
-          ${status === 'loading' ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'}
-          disabled:cursor-not-allowed transition-colors
-        `}
+        disabled={isLoading}
+        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-gray-400"
       >
-        {status === 'loading' ? 'Revalidating...' : 'Revalidate Cache'}
+        {isLoading ? 'กำลังดำเนินการ...' : 'ล้างแคช'}
       </button>
-      
-      {message && (
-        <p className={`text-sm ${
-          status === 'error' ? 'text-red-600' : 'text-green-600'
-        }`}>
-          {message}
+      {status && (
+        <p className={`text-sm ${status.includes('สำเร็จ') ? 'text-green-600' : 'text-red-600'}`}>
+          {status}
         </p>
       )}
     </div>
