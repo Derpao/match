@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   try {
     const token = request.headers.get('x-revalidate-token')
     
-    if (token !== process.env.REVALIDATE_TOKEN) {
+    if (token !== process.env.NEXT_PUBLIC_REVALIDATE_TOKEN) {
       console.log('❌ Invalid token received')
       return NextResponse.json(
         { message: 'Invalid token' }, 
