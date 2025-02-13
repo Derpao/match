@@ -8,7 +8,7 @@ export default function RevalidateButton() {
 
   const handleRevalidate = async () => {
     setIsLoading(true)
-    setStatus('กำลังล้างแคช...')
+    setStatus('กำลังล้าง Cache...')
     
     try {
       const res = await fetch('/api/revalidate', {
@@ -21,13 +21,15 @@ export default function RevalidateButton() {
       const data = await res.json()
       
       if (res.ok) {
-        setStatus('ล้างแคชสำเร็จ')
+        setStatus('ล้าง Cache และ revalidate สำเร็จ')
+        // Refresh the page after successful cache clear
+        window.location.reload()
       } else {
         setStatus(`เกิดข้อผิดพลาด: ${data.message}`)
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ'
-      setStatus(`เกิดข้อผิดพลาดในการล้างแคช: ${errorMessage}`)
+      setStatus(`เกิดข้อผิดพลาด: ${errorMessage}`)
     } finally {
       setIsLoading(false)
     }
