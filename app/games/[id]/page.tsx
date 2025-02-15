@@ -40,9 +40,9 @@ export default async function Page({ params }: PageProps) {
               alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
               fill
               className="object-cover"
-              priority // Add this for above-the-fold images
-              quality={75} // Optimize quality vs size
-              loading="eager" // Load immediately
+              priority
+              quality={75}
+              sizes="(max-width: 768px) 355px"
             />
             </div>
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
@@ -53,6 +53,7 @@ export default async function Page({ params }: PageProps) {
                     src={match.teams.logoA}
                     alt={match.teams.teamA}
                     fill
+                    sizes="64px"
                     className="object-contain p-2"
                   />
                 </div>
@@ -69,6 +70,7 @@ export default async function Page({ params }: PageProps) {
                     src={match.teams.logoB}
                     alt={match.teams.teamB}
                     fill
+                    sizes="64px"
                     className="object-contain p-2"
                   />
                 </div>
