@@ -8,9 +8,21 @@ export default function BackButton() {
 
   if (pathname === '/') return null
 
+  const handleBack = () => {
+    if (!pathname) return
+    
+    if (pathname === '/games') {
+      router.push('/')
+    } else if (pathname.startsWith('/games/')) {
+      router.push('/games')
+    } else {
+      router.back()
+    }
+  }
+
   return (
     <button
-      onClick={() => router.back()}
+      onClick={handleBack}
       className="absolute left-0 top-1/2 -translate-y-1/2 p-2 text-white/90 hover:text-white flex items-center gap-1 rounded-lg transition-all hover:bg-white/10"
     >
       <svg 

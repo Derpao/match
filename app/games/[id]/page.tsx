@@ -34,9 +34,9 @@ export default async function Page({ params }: PageProps) {
     <div className="w-full">
       <Suspense fallback={<div>Loading match details...</div>}>
         <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
-          <div className="relative h-[200px]">
+            <div className="relative h-[200px]">
             <Image 
-              src={match.image} 
+              src="/images/10001.webp" 
               alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
               fill
               className="object-cover"
@@ -44,7 +44,7 @@ export default async function Page({ params }: PageProps) {
               quality={75} // Optimize quality vs size
               loading="eager" // Load immediately
             />
-          </div>
+            </div>
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
             <div className="flex items-center justify-center gap-4">
               <div className="flex flex-col items-center w-28">

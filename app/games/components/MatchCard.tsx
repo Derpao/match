@@ -14,9 +14,9 @@ export default function MatchCard({ match }: MatchCardProps) {
       className="block"
     >
       <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow">
-        <div className="h-[160px] relative">
+        <div className="h-[200px] relative">
           <Image
-            src="/images/10000.webp"
+            src="/images/10001.webp"
             alt={`${match.teams?.teamA || 'Team A'} vs ${match.teams?.teamB || 'Team B'}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -34,6 +34,7 @@ export default function MatchCard({ match }: MatchCardProps) {
                   src={match.teams.logoA} 
                   alt={match.teams.teamA}
                   fill
+                  sizes="(max-width: 768px) 100px, 150px"
                   className="object-contain"
                 />
               </div>
@@ -47,6 +48,7 @@ export default function MatchCard({ match }: MatchCardProps) {
                   src={match.teams.logoB} 
                   alt={match.teams.teamB}
                   fill
+                  sizes="(max-width: 768px) 100px, 150px"
                   className="object-contain"
                 />
               </div>
