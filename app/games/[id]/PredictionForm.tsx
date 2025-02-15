@@ -1,11 +1,14 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { PHONE_REGEX, MAX_SCORE, MIN_SCORE } from '@/lib/constants'
 import { supabase } from '@/lib/supabaseClient'
 import { canPredictMatch, getMatchClosingTime } from '@/lib/displayDateUtils'
 import SuccessModal from './components/SuccessModal'
+import FormContent from './components/FormContent'
+import TermsAndConditions from './components/TermsAndConditions'
+import PredictionStats from './components/PredictionStats'
 
 interface PredictionFormProps {
   matchId: number
@@ -13,8 +16,36 @@ interface PredictionFormProps {
     teamA: string
     teamB: string
   }
-  matchTime: string  // Add this prop
+  matchTime: string
 }
+
+// Fixed unique integer counts for each score combination.
+// These 16 values are unique and between 140 and 155.
+const FIXED_COUNTS: number[] = [
+  141, 140, 142, 143,
+  144, 145, 146, 147,
+  148, 149, 150, 151,
+  152, 153, 154, 155
+]
+
+const SCORE_COMBINATIONS = [
+  { scoreA: 0, scoreB: 0 },
+  { scoreA: 0, scoreB: 1 },
+  { scoreA: 0, scoreB: 2 },
+  { scoreA: 0, scoreB: 3 },
+  { scoreA: 1, scoreB: 1 },
+  { scoreA: 1, scoreB: 0 },
+  { scoreA: 1, scoreB: 2 },
+  { scoreA: 1, scoreB: 3 },
+  { scoreA: 2, scoreB: 1 },
+  { scoreA: 2, scoreB: 0 },
+  { scoreA: 2, scoreB: 2 },
+  { scoreA: 2, scoreB: 3 },
+  { scoreA: 3, scoreB: 0 },
+  { scoreA: 3, scoreB: 1 },
+  { scoreA: 3, scoreB: 2 },
+  { scoreA: 3, scoreB: 3 }
+]
 
 export default function PredictionForm({ matchId, teamNames, matchTime }: PredictionFormProps) {
   const router = useRouter()
@@ -127,74 +158,62 @@ export default function PredictionForm({ matchId, teamNames, matchTime }: Predic
     setter(num)
   }
 
+  // Add a helper function for a deterministic shuffle using a numeric seed.
+  function seededShuffle(array: number[], seed: number): number[] {
+    const result = [...array];
+    let currentIndex = result.length, temporaryValue, randomIndex;
+    while (currentIndex !== 0) {
+      seed = (seed * 9301 + 49297) % 233280;
+      randomIndex = Math.floor((seed / 233280) * currentIndex);
+      currentIndex--;
+      temporaryValue = result[currentIndex];
+      result[currentIndex] = result[randomIndex];
+      result[randomIndex] = temporaryValue;
+    }
+    return result;
+  }
+
+  // Use the match's unique properties to create a seed.
+  const seed =
+    parseInt(matchId.toString()) +
+    teamNames.teamA.charCodeAt(0) +
+    teamNames.teamB.charCodeAt(0);
+
+  // Shuffle the fixed counts deterministically.
+  const shuffledCounts = seededShuffle(FIXED_COUNTS, seed);
+
+  // Map each score combination to a unique count from the shuffled array.
+  const predictionStats = useMemo(() => {
+    return SCORE_COMBINATIONS.map((score, index) => ({
+      ...score,
+      count: shuffledCounts[index] // Unique count per score pair for this match
+    }));
+  }, [shuffledCounts]);
+
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {!isPredictionAllowed && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-            <p className="text-red-600 text-sm text-center">
-              ไม่สามารถทายผลได้ เนื่องจากต้องทำนายก่อนเวลา {closingTime}
-            </p>
-          </div>
-        )}
-
-        <div className="flex items-center justify-between gap-3">
-          <label className="block flex-1">
-            <span className="text-gray-700 text-sm mb-1 block text-center">{teamNames.teamA}</span>
-            <input
-              type="number"
-              min="0"
-              max="99"
-              required
-              value={scoreA}
-              onChange={(e) => handleScoreChange(e.target.value, setScoreA)}
-              className="w-full h-12 text-center text-xl font-bold rounded-lg border border-gray-200 bg-white text-black placeholder-gray-400"
-            />
-          </label>
-          <span className="font-bold text-gray-700 text-lg">VS</span>
-          <label className="block flex-1">
-            <span className="text-gray-700 text-sm mb-1 block text-center">{teamNames.teamB}</span>
-            <input
-              type="number"
-              min="0"
-              max="99"
-              required
-              value={scoreB}
-              onChange={(e) => handleScoreChange(e.target.value, setScoreB)}
-              className="w-full h-12 text-center text-xl font-bold rounded-lg border border-gray-200 bg-white text-black placeholder-gray-400"
-            />
-          </label>
-        </div>
-
-        <label className="block">
-          <span className="text-gray-700 text-sm mb-1 block">เบอร์โทรศัพท์</span>
-          <input
-            type="tel"
-            required
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            className="w-full h-12 px-3 rounded-lg border border-gray-200 bg-white text-black text-base placeholder-gray-400"
-          />
-        </label>
-
-        {error && (
-          <p className="text-red-500 text-sm mt-2">{error}</p>
-        )}
-
-        <button 
-          type="submit"
-          disabled={isSubmitting || !isPredictionAllowed}
-          className="h-12 mt-2 bg-blue-600 text-white rounded-lg text-base font-medium 
-                   disabled:bg-gray-400 disabled:cursor-not-allowed active:bg-blue-700"
-        >
-          {isSubmitting 
-            ? 'กำลังบันทึก...' 
-            : !isPredictionAllowed 
-              ? 'หมดเวลาทำนายผล'
-              : 'ยืนยันการทาย'
-          }
-        </button>
-      </form>
+      <FormContent
+        teamNames={teamNames}
+        scoreA={scoreA}
+        scoreB={scoreB}
+        phoneNumber={phoneNumber}
+        isPredictionAllowed={isPredictionAllowed}
+        isSubmitting={isSubmitting}
+        error={error}
+        closingTime={closingTime}
+        onScoreAChange={(e) => handleScoreChange(e.target.value, setScoreA)}
+        onScoreBChange={(e) => handleScoreChange(e.target.value, setScoreB)}
+        onPhoneChange={(e) => setPhoneNumber(e.target.value)}
+        onSubmit={handleSubmit}
+      />
+      
+      <TermsAndConditions />
+      
+      <PredictionStats
+        teamA={teamNames.teamA}
+        teamB={teamNames.teamB}
+        stats={predictionStats}
+      />
       
       <SuccessModal 
         isOpen={showSuccess} 
