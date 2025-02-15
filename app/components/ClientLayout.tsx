@@ -9,7 +9,10 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
   const isAdmin = pathname?.startsWith('/admin')
 
   return (
-    <div className="min-h-screen mx-auto bg-white" style={{ width: isAdmin ? '800px' : '375px' }}>
+    <div className={`
+      min-h-screen mx-auto bg-white
+      ${isAdmin ? 'w-[800px]' : 'w-full md:w-[400px]'}
+    `}>
       {!isAdmin && (
         <header className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 pt-12 pb-4 text-white">
           <div className="relative flex items-center justify-center">
