@@ -4,6 +4,7 @@ import Image from 'next/image';
 import ClientFormWrapper from './ClientFormWrapper';
 import { getMatch } from '@/lib/getMatches';
 import { formatDisplayMatchTime } from '@/lib/displayDateUtils';
+import { Suspense } from 'react';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -31,63 +32,70 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="w-full">
-      <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
-        <div className="relative h-[200px]">
-          <Image 
-            src={match.image} 
-            alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
-            fill
-            className="object-cover"
+      <Suspense fallback={<div>Loading match details...</div>}>
+        <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+          <div className="relative h-[200px]">
+            <Image 
+              src={match.image} 
+              alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
+              fill
+              className="object-cover"
+              priority // Add this for above-the-fold images
+              quality={75} // Optimize quality vs size
+              loading="eager" // Load immediately
+            />
+          </div>
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
+            <div className="flex items-center justify-center gap-4">
+              <div className="flex flex-col items-center w-28">
+                <div className="relative w-16 h-16 bg-white rounded-full p-2 mb-2">
+                  <Image
+                    src={match.teams.logoA}
+                    alt={match.teams.teamA}
+                    fill
+                    className="object-contain p-2"
+                  />
+                </div>
+                <h2 className="text-lg font-bold text-white text-center min-h-[3rem] flex items-center">
+                  {match.teams.teamA}
+                </h2>
+              </div>
+              
+              <span className="text-2xl font-bold text-blue-200">VS</span>
+              
+              <div className="flex flex-col items-center w-28">
+                <div className="relative w-16 h-16 bg-white rounded-full p-2 mb-2">
+                  <Image
+                    src={match.teams.logoB}
+                    alt={match.teams.teamB}
+                    fill
+                    className="object-contain p-2"
+                  />
+                </div>
+                <h2 className="text-lg font-bold text-white text-center min-h-[3rem] flex items-center">
+                  {match.teams.teamB}
+                </h2>
+              </div>
+            </div>
+            <p className="text-center text-blue-100 mt-2 text-sm">
+              เวลาแข่ง: {formatDisplayMatchTime(match.matchTime)}
+            </p>
+          </div>
+        </div>
+      </Suspense>
+
+      <Suspense fallback={<div>Loading prediction form...</div>}>
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+          <ClientFormWrapper
+            matchId={match.id}
+            teamNames={{
+              teamA: match.teams.teamA,
+              teamB: match.teams.teamB,
+            }}
+            matchTime={match.matchTime}
           />
         </div>
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex flex-col items-center w-28">
-              <div className="relative w-16 h-16 bg-white rounded-full p-2 mb-2">
-                <Image
-                  src={match.teams.logoA}
-                  alt={match.teams.teamA}
-                  fill
-                  className="object-contain p-2"
-                />
-              </div>
-              <h2 className="text-lg font-bold text-white text-center min-h-[3rem] flex items-center">
-                {match.teams.teamA}
-              </h2>
-            </div>
-            
-            <span className="text-2xl font-bold text-blue-200">VS</span>
-            
-            <div className="flex flex-col items-center w-28">
-              <div className="relative w-16 h-16 bg-white rounded-full p-2 mb-2">
-                <Image
-                  src={match.teams.logoB}
-                  alt={match.teams.teamB}
-                  fill
-                  className="object-contain p-2"
-                />
-              </div>
-              <h2 className="text-lg font-bold text-white text-center min-h-[3rem] flex items-center">
-                {match.teams.teamB}
-              </h2>
-            </div>
-          </div>
-          <p className="text-center text-blue-100 mt-2 text-sm">
-            เวลาแข่ง: {formatDisplayMatchTime(match.matchTime)}
-          </p>
-        </div>
-      </div>
-
-      <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-        <ClientFormWrapper
-          matchId={match.id}
-          teamNames={{
-            teamA: match.teams.teamA,
-            teamB: match.teams.teamB,
-          }}
-          matchTime={match.matchTime}
-        />
-      </div>
+      </Suspense>
     </div>
   );
 }

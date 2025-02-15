@@ -1,33 +1,29 @@
 export default function Loading() {
   return (
-    <div className="w-full">
-      <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
-        <div className="h-[200px] bg-gray-200 animate-pulse"></div>
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-gray-200 animate-pulse rounded-full mb-2"></div>
-              <div className="h-6 w-24 bg-gray-200 animate-pulse rounded"></div>
-            </div>
-            
-            <div className="h-8 w-8 bg-gray-200 animate-pulse rounded"></div>
-            
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-gray-200 animate-pulse rounded-full mb-2"></div>
-              <div className="h-6 w-24 bg-gray-200 animate-pulse rounded"></div>
-            </div>
-          </div>
-          <div className="h-4 w-32 bg-gray-200 animate-pulse rounded mx-auto mt-2"></div>
+    <div className="w-full min-h-[400px] flex flex-col items-center justify-center">
+      <div className="relative w-20 h-20">
+        <div className="absolute top-0 left-0 right-0 bottom-0">
+          <div className="w-20 h-20 border-4 border-blue-200 rounded-full animate-spin border-t-blue-600"/>
+        </div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <svg 
+            className="w-8 h-8 text-blue-600" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth="2" 
+              d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zm-6 0a6 6 0 00-6 6v7h4v-7a2 2 0 012-2 2 2 0 012 2v7h4v-7a6 6 0 00-6-6z"
+            />
+          </svg>
         </div>
       </div>
-
-      <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-        <div className="space-y-4">
-          <div className="h-10 w-full bg-gray-200 animate-pulse rounded"></div>
-          <div className="h-32 w-full bg-gray-200 animate-pulse rounded"></div>
-          <div className="h-10 w-32 bg-gray-200 animate-pulse rounded"></div>
-        </div>
-      </div>
+      <p className="mt-4 text-gray-600 font-medium animate-pulse">
+        กำลังโหลดข้อมูล...
+      </p>
     </div>
-  );
+  )
 }
