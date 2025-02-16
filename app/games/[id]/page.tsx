@@ -5,6 +5,7 @@ import ClientFormWrapper from './ClientFormWrapper';
 import { getMatch } from '@/lib/getMatches';
 import { formatDisplayMatchTime } from '@/lib/displayDateUtils';
 import { Suspense } from 'react';
+import CountdownTimer from './components/CountdownTimer';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -82,6 +83,7 @@ export default async function Page({ params }: PageProps) {
             <p className="text-center text-blue-100 mt-2 text-sm">
               เวลาแข่ง: {formatDisplayMatchTime(match.matchTime)}
             </p>
+            <CountdownTimer matchTime={match.matchTime} />
           </div>
         </div>
       </Suspense>

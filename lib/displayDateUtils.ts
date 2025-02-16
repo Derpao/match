@@ -20,8 +20,8 @@ export const canPredictMatch = (matchTime: string): boolean => {
   try {
     const now = dayjs().tz(BANGKOK_TIMEZONE)
     const matchDate = dayjs(matchTime).tz(BANGKOK_TIMEZONE)
-    const oneHourBefore = matchDate.subtract(1, 'hour')
-    return now.isBefore(oneHourBefore)
+    const twoHoursBefore = matchDate.subtract(2, 'hours')
+    return now.isBefore(twoHoursBefore)
   } catch (error) {
     console.error('Error checking prediction time:', error)
     return false
@@ -31,8 +31,8 @@ export const canPredictMatch = (matchTime: string): boolean => {
 export const getMatchClosingTime = (matchTime: string): string => {
   try {
     const matchDate = dayjs(matchTime).tz(BANGKOK_TIMEZONE)
-    const oneHourBefore = matchDate.subtract(1, 'hour')
-    return oneHourBefore.format('HH:mm')
+    const twoHoursBefore = matchDate.subtract(2, 'hours')
+    return twoHoursBefore.format('HH:mm')
   } catch (error) {
     console.error('Error getting closing time:', error)
     return 'Invalid time'

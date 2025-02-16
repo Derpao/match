@@ -45,7 +45,11 @@ export default function TermsAndConditions() {
                   'หมดเวลาร่วมสนุกก่อน 2 ชม. บอลเตะ',
                   'การตัดสินของทีมงานถือเป็นที่สิ้นสุด',
                   'ผู้ที่ได้รับรางวัลต้องมียอดฝากขั้นต่ำ 1,000 บาทในวันที่ทายผล',
-                  'รางวัลหารตามจำนวนคนที่ตอบถูก'
+                  {
+                    main: 'รางวัลหารตามจำนวนคนที่ตอบถูก',
+                    sub: '',
+                    note: ''
+                  }
                 ].map((item, index) => (
                   <li key={index} className="flex items-start">
                     <span className="text-blue-600 mr-2">•</span>
@@ -54,9 +58,9 @@ export default function TermsAndConditions() {
                         <p>{item}</p>
                       ) : (
                         <div className="space-y-1">
-                          <p>{item.main}</p>
-                          <p className="text-red-500">{item.sub}</p>
-                          <p className="text-gray-500 text-sm">{item.note}</p>
+                            <p className="text-red-500 font-bold">{item.main}</p>
+                          {item.sub && <p className="text-red-500">{item.sub}</p>}
+                          {item.note && <p className="text-gray-500 text-sm">{item.note}</p>}
                         </div>
                       )}
                     </div>
