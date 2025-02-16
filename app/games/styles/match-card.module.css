@@ -1,0 +1,23 @@
+.matchCard {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  perspective: 1000px;
+}
+
+.matchCard:hover {
+  transform: translateY(-10px) rotateX(5deg);
+}
+
+.matchCardInner {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.matchCardTeam {
+  position: relative;
+  transition: all 0.3s ease;
+  background: linear-gradient(#ffffff 0 0) padding-box,
+    linear-gradient(170.98deg, #7b5c23 -10.07%, #816228 6.74%, #f7ec88 27.15%, #f5e385 47.41%, #4f2d0c 60.36%, #ceac35 93.15%) border-box;
+  border: 1.5px solid transparent;
+}

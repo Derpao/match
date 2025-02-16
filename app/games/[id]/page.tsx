@@ -6,6 +6,7 @@ import { getMatch } from '@/lib/getMatches';
 import { formatDisplayMatchTime } from '@/lib/displayDateUtils';
 import { Suspense } from 'react';
 import CountdownTimer from './components/CountdownTimer';
+import styles from '../styles/match-card.module.css'
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -33,11 +34,11 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="w-full">
-      <Suspense fallback={<div>Loading match details...</div>}>
-        <div className="mb-4 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+      <Suspense fallback={<div></div>}>
+        <div className={`mb-4 rounded-lg overflow-hidden shadow-sm ${styles.matchCardTeam}`}>
             <div className="relative h-[200px]">
             <Image 
-              src="/images/10001.webp" 
+              src="/images/10003.webp" 
               alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
               fill
               className="object-cover"

@@ -1,12 +1,23 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import BackButton from './BackButton'
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
+  const router = useRouter()
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
+
+  const handleBack = () => {
+    if (pathname === '/games') {
+      router.push('/')
+    } else if (pathname?.startsWith('/games/')) {
+      router.push('/games')
+    } else {
+      router.back()
+    }
+  }
 
   return (
     <div className={`
@@ -14,10 +25,18 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
       ${isAdmin ? 'w-[800px]' : 'w-full md:w-[400px]'}
     `}>
       {!isAdmin && (
-        <header className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 pt-12 pb-4 text-white">
-          <div className="relative flex items-center justify-center">
-            <BackButton />
-            <h2 className="text-xl font-bold">Football Prediction</h2>
+        <header className="bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-500 min-h-[80px] flex items-center text-white shadow-lg px-2">
+          <div className="grid grid-cols-[60px_1fr_60px] w-full items-center">
+            <div 
+              onClick={handleBack}
+              className="h-[40px] w-[60px] cursor-pointer hover:bg-white/10 active:bg-white/20 rounded-lg transition-all flex items-center justify-center"
+            >
+              <BackButton />
+            </div>
+            <h1 className="text-center text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
+              Football Prediction
+            </h1>
+            <div></div> {/* Spacer for balance */}
           </div>
         </header>
       )}

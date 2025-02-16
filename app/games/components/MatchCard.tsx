@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatDisplayMatchTime } from '@/lib/displayDateUtils'
 import { Match } from '@/types/match'
+import styles from '../styles/match-card.module.css'
 
 type MatchCardProps = {
   match: Match
@@ -11,12 +12,12 @@ export default function MatchCard({ match }: MatchCardProps) {
   return (
     <Link 
       href={`/games/${match.id}`} 
-      className="block"
+      className={`block ${styles.matchCard}`}
     >
-      <div className="border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow">
+      <div className={`border-gray-100 rounded-lg overflow-hidden ${styles.matchCardInner} ${styles.matchCardTeam}`}>
         <div className="h-[200px] relative">
           <Image
-            src="/images/10001.webp"
+            src="/images/10003.webp"
             alt={`${match.teams?.teamA || 'Team A'} vs ${match.teams?.teamB || 'Team B'}`}
             fill
             sizes="(max-width: 768px) 355px"

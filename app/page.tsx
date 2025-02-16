@@ -1,52 +1,39 @@
-// pages/index.tsx
-import { NextPage } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
-import Head from 'next/head'
+import { Metadata } from 'next'
+import { Button } from '@/components/Button'
+import { ScrollCard } from '@/components/ScrollCard'
+import styles from '@/styles/Home.module.css'
 
-const Home: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>Football Prediction</title>
-      </Head>
-
-      <main style={styles.container}>
-        <h1 style={styles.title}>กิจกรรมทายผลฟุตบอล</h1>
-        <p style={styles.subtitle}>
-          ลุ้นรางวัลใหญ่กับกิจกรรมสนุก ๆ
-        </p>
-        <Link href="/games">
-          <button style={styles.button}>
-            เริ่มทายผล
-          </button>
-        </Link>
-      </main>
-    </>
-  )
+export const metadata: Metadata = {
+  title: 'Football Prediction - ทายผลฟุตบอล',
+  description: 'ร่วมสนุกกับกิจกรรมทายผลฟุตบอล ลุ้นรางวัลใหญ่',
 }
 
-export default Home
-
-// ตัวอย่างสไตล์อินไลน์ง่าย ๆ
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-  },
-  title: {
-    fontSize: '1.8rem',
-    marginBottom: '0.5rem'
-  },
-  subtitle: {
-    marginBottom: '1rem',
-    color: '#666'
-  },
-  button: {
-    padding: '0.8rem 1.2rem',
-    fontSize: '1rem',
-    cursor: 'pointer'
-  }
+export default function Home() {
+  return (
+    <main className={styles.container}>
+      <ScrollCard>
+        <div className={styles.imageContainer}>
+          <Image
+            src="/images/10003.webp"
+            alt="Football Prediction"
+            fill
+            priority
+            sizes="(max-width: 400px) 90vw, 400px"
+            quality={90}
+          />
+        </div>
+        <div className={styles.content}>
+          <h1 className={styles.title}>กิจกรรมทายผลฟุตบอล</h1>
+          <p className={styles.subtitle}>
+            ลุ้นรางวัลใหญ่กับกิจกรรมสนุก ๆ
+          </p>
+          <Link href="/games">
+            <Button>เริ่มทายผล</Button>
+          </Link>
+        </div>
+      </ScrollCard>
+    </main>
+  )
 }
