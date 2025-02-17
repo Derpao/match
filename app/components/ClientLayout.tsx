@@ -8,12 +8,14 @@ import Image from 'next/image'
 export default function ClientLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
-  const [logoPath, setLogoPath] = useState('/images/20240219123410YMrf (1).png')
+  const [logoPath, setLogoPath] = useState<string | null>(null)
 
   useEffect(() => {
     const referrer = document.referrer
     if (referrer && new URL(referrer).hostname.includes('banker999')) {
       setLogoPath('/images/banker999.png')
+    } else {
+      setLogoPath('/images/20240219123410YMrf (1).png')
     }
   }, [])
 
@@ -29,14 +31,16 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               <BackButton />
             </div>
             <div className="flex-1 flex justify-center items-center">
-              <Image
-                src={logoPath}
-                alt="ทายฟุตผลบอล"
-                width={200}
-                height={60}
-                className="object-contain"
-                priority
-              />
+              {logoPath && (
+                <Image
+                  src={logoPath}
+                  alt="ทายฟุตผลบอล"
+                  width={200}
+                  height={60}
+                  className="object-contain"
+                  priority
+                />
+              )}
             </div>
           </div>
         </header>
