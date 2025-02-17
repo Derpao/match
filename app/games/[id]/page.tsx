@@ -38,7 +38,7 @@ export default async function Page({ params }: PageProps) {
         <div className={`mb-4 rounded-lg overflow-hidden shadow-sm ${styles.matchCardTeam}`}>
             <div className="relative h-[200px]">
             <Image 
-              src="/images/10003.webp" 
+              src="/images/10004.webp" 
               alt={`${match.teams.teamA} vs ${match.teams.teamB}`}
               fill
               className="object-cover"

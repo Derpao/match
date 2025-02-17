@@ -17,7 +17,7 @@ export default function MatchCard({ match }: MatchCardProps) {
       <div className={`border-gray-100 rounded-lg overflow-hidden ${styles.matchCardInner} ${styles.matchCardTeam}`}>
         <div className="h-[200px] relative">
           <Image
-            src="/images/10003.webp"
+            src="/images/10004.webp"
             alt={`${match.teams?.teamA || 'Team A'} vs ${match.teams?.teamB || 'Team B'}`}
             fill
             sizes="(max-width: 768px) 355px"

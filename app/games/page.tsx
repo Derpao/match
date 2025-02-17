@@ -10,7 +10,7 @@ async function MatchList() {
   if (!matches || matches.length === 0) {
     return (
       <div className="w-full text-center py-8">
-        <p className="text-gray-600">ไม่พบข้อมูลการแข่งขัน111</p>
+        <p className="text-gray-600">ไม่พบข้อมูลการแข่งขัน</p>
       </div>
     )
   }

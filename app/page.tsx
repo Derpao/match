@@ -16,7 +16,7 @@ export default function Home() {
       <ScrollCard>
         <div className={styles.imageContainer}>
           <Image
-            src="/images/10003.webp"
+            src="/images/10004.webp"
             alt="Football Prediction"
             fill
             priority
