@@ -6,12 +6,16 @@ export default function BackButton() {
   const router = useRouter()
   const pathname = usePathname()
 
-  if (pathname === '/') return null
-
   const handleBack = () => {
     if (!pathname) return
     
-    if (pathname === '/games') {
+    if (pathname === '/') {
+      if (window.opener) {
+        window.close()
+      } else {
+        router.back()
+      }
+    } else if (pathname === '/games') {
       router.push('/')
     } else if (pathname.startsWith('/games/')) {
       router.push('/games')
