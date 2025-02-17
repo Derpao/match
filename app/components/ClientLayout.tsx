@@ -1,13 +1,21 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import BackButton from './BackButton'
 import Image from 'next/image'
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
+  const [logoPath, setLogoPath] = useState('/images/20240219123410YMrf (1).png')
+
+  useEffect(() => {
+    const referrer = document.referrer
+    if (referrer && new URL(referrer).hostname.includes('banker999')) {
+      setLogoPath('/images/banker999.png')
+    }
+  }, [])
 
   return (
     <div className={`
@@ -22,7 +30,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
             </div>
             <div className="flex-1 flex justify-center items-center">
               <Image
-                src="/images/20240219123410YMrf (1).png"
+                src={logoPath}
                 alt="ทายฟุตผลบอล"
                 width={200}
                 height={60}
