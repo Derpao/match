@@ -10,8 +10,8 @@ export default function BackButton() {
     if (!pathname) return
     
     if (pathname === '/') {
-      if (window.opener) {
-        window.close()
+      if (document.referrer) {
+        window.location.href = document.referrer
       } else {
         router.back()
       }
