@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent, useMemo } from 'react'
+import { useState, FormEvent, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { PHONE_REGEX, MAX_SCORE, MIN_SCORE } from '@/lib/constants'
 import { supabase } from '@/lib/supabaseClient'
@@ -58,6 +58,14 @@ export default function PredictionForm({ matchId, teamNames, matchTime }: Predic
 
   const isPredictionAllowed = canPredictMatch(matchTime)
   const closingTime = getMatchClosingTime(matchTime)
+
+  // Load phone number from localStorage on mount
+  useEffect(() => {
+    const savedPhone = localStorage.getItem('lastPhoneNumber')
+    if (savedPhone) {
+      setPhoneNumber(savedPhone)
+    }
+  }, [])
 
   const validateForm = (): boolean => {
     if (!phoneNumber.match(PHONE_REGEX)) {
@@ -138,6 +146,8 @@ export default function PredictionForm({ matchId, teamNames, matchTime }: Predic
         throw new Error(`Failed to save prediction: ${error.message}`)
       }
 
+      // Save phone number to localStorage after successful submission
+      localStorage.setItem('lastPhoneNumber', phoneNumber)
       setShowSuccess(true) // Replace alert with modal
       // Don't redirect immediately, let user close the modal
     } catch (err) {

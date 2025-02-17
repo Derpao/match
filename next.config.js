@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'upload.wikimedia.org',
-      'theme-ui.s3.ap-southeast-1.amazonaws.com'
-    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      }
+    ]
   },
   typescript: {
     ignoreBuildErrors: false,
