@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 import BackButton from './BackButton'
+import Image from 'next/image'
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -15,15 +16,20 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
     `}>
       {!isAdmin && (
         <header className="bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-500 px-4 min-h-[80px] flex items-center text-white shadow-lg">
-          <div className="relative flex items-center justify-center w-full">
-           
-              <div className="p-3 px-4  active:bg-white/20 rounded-xl transition-colors cursor-pointer">
-                <BackButton />
-              </div>
-            
-            <h1 className="flex-1 text-center text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
-              Football Prediction
-            </h1>
+          <div className="relative flex items-center w-full">
+            <div className="absolute left-0 p-3 px-4 active:bg-white/20 rounded-xl transition-colors cursor-pointer">
+              <BackButton />
+            </div>
+            <div className="flex-1 flex justify-center items-center">
+              <Image
+                src="/images/20240219123410YMrf (1).png"
+                alt="ทายฟุตผลบอล"
+                width={200}
+                height={60}
+                className="object-contain"
+                priority
+              />
+            </div>
           </div>
         </header>
       )}
