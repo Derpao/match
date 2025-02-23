@@ -46,7 +46,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
         </header>
       )}
 
-      <main className="p-4 min-h-[80vh] bg-white">
+      <main className="pt-0 p-0 min-h-[80vh] bg-white">
         {children}
       </main>
 

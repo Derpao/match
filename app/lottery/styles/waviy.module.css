@@ -1,0 +1,14 @@
+.waviy {
+  position: relative;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 2rem 0;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .waviy {
+    font-size: 1.5rem;
+  }
+}

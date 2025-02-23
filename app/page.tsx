@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className={styles.container}>
+    <main className={`${styles.container} ${styles.verticalStack}`}>
       <ScrollCard>
         <div className={styles.imageContainer}>
           <Image
             src="/images/10004.webp"
             alt="Football Prediction"
             fill
-            priority
+            priority={true}
             sizes="(max-width: 400px) 90vw, 400px"
             quality={90}
           />
@@ -31,6 +31,27 @@ export default function Home() {
           </p>
           <Link href="/games">
             <Button>เริ่มทายผล</Button>
+          </Link>
+        </div>
+      </ScrollCard>
+      <ScrollCard>
+        <div className={styles.imageContainer}>
+          <Image
+            src="/images/10005.webp"
+            alt="Thai Lottery Prediction"
+            fill
+            loading="lazy"
+            sizes="(max-width: 400px) 90vw, 400px"
+            quality={90}
+          />
+        </div>
+        <div className={styles.content}>
+          <h1 className={styles.title}>กิจกรรมทายผลหวย</h1>
+          <p className={styles.subtitle}>
+            ร่วมสนุกทายตัวเลข ลุ้นรางวัลมากมาย
+          </p>
+          <Link href="/lottery">
+            <Button>เริ่มทายเลข</Button>
           </Link>
         </div>
       </ScrollCard>

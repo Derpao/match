@@ -6,6 +6,8 @@ import MatchForm from '../../components/MatchForm'
 import MatchManageForm from '../../components/MatchManageForm'
 import CustomerSearchSection from '@/components/CustomerSearchSection'
 import Link from 'next/link'
+import LotterySearchSection from '@/components/LotterySearchSection'
+import LotteryNumberSearchSection from '@/components/LotteryNumberSearchSection'
 
 export const metadata: Metadata = {
   title: 'Admin - Football Prediction',
@@ -64,6 +66,18 @@ export default async function AdminPage() {
           <div className="bg-white rounded-lg shadow p-4 sm:p-6">
             <h2 className="text-lg font-semibold mb-4">Customer Search</h2>
             <CustomerSearchSection />
+          </div>
+
+          {/* Lottery Number Search Section */}
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <h2 className="text-lg font-semibold mb-4">ค้นหาตามเลขที่ทาย</h2>
+            <LotteryNumberSearchSection />
+          </div>
+
+          {/* Lottery Search Section */}
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <h2 className="text-lg font-semibold mb-4">ค้นหาประวัติการทายผลหวย</h2>
+            <LotterySearchSection />
           </div>
         </div>
       </div>
