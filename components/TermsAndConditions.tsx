@@ -20,8 +20,8 @@ const convertThaiDateToDate = (thaiDate: string): Date | null => {
       'กันยายน': '09', 'ตุลาคม': '10', 'พฤศจิกายน': '11', 'ธันวาคม': '12'
     }
 
-    // If it's already a valid date object or ISO string
-    if (thaiDate instanceof Date || !isNaN(Date.parse(thaiDate))) {
+    // If it's an ISO string or any valid date string
+    if (!isNaN(Date.parse(thaiDate))) {
       return new Date(thaiDate);
     }
     
@@ -30,7 +30,7 @@ const convertThaiDateToDate = (thaiDate: string): Date | null => {
     if (parts.length === 3) {
       const day = parts[0].padStart(2, '0');
       const month = thaiMonths[parts[1]];
-      let year = parseInt(parts[2]) - 543; // Convert Buddhist year to Gregorian
+      const year = parseInt(parts[2]) - 543; // Convert Buddhist year to Gregorian
 
       if (month && !isNaN(year)) {
         return new Date(`${year}-${month}-${day}`);
@@ -52,7 +52,15 @@ export default function TermsAndConditions({ date }: TermsAndConditionsProps) {
   const defaultTime = '14.00';
   
   // Convert date if provided, or use default
-  const dateObj = date ? convertThaiDateToDate(date as string) : null;
+  let dateObj: Date | null = null;
+  
+  if (date) {
+    if (date instanceof Date) {
+      dateObj = date;
+    } else if (typeof date === 'string') {
+      dateObj = convertThaiDateToDate(date);
+    }
+  }
   
   // Format the date or use default if conversion failed
   const formattedDate = dateObj ? format(dateObj, 'd MMMM yyyy', { locale: th }) : defaultDate;
