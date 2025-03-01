@@ -209,7 +209,7 @@ export default function PredictPage() {
                 {isSubmitting ? 'กำลังบันทึก...' : 'ส่งคำตอบ'}
               </button>
             </form>
-            <TermsAndConditions />
+            <TermsAndConditions date={lotteryData.date} />
             <PredictionStats />
           </>
         )}
