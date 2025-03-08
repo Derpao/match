@@ -16,7 +16,7 @@ async function MatchList() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <h1 className={styles.waviy}>
         รายการคู่ฟุตบอล
       </h1>
