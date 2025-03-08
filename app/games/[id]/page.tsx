@@ -57,6 +57,7 @@ export default async function Page({ params }: PageProps) {
                     fill
                     sizes="64px"
                     className="object-contain p-2"
+                    unoptimized
                   />
                 </div>
                 <h2 className="text-lg font-bold text-white text-center min-h-[3rem] flex items-center">
@@ -74,6 +75,7 @@ export default async function Page({ params }: PageProps) {
                     fill
                     sizes="64px"
                     className="object-contain p-2"
+                    unoptimized
                   />
                 </div>
                 <h2 className="text-lg font-bold text-white text-center min-h-[3rem] flex items-center">
