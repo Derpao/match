@@ -33,7 +33,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <Suspense fallback={<div></div>}>
         <div className={`mb-4 rounded-lg overflow-hidden shadow-sm ${styles.matchCardTeam}`}>
             <div className="relative h-[200px]">
