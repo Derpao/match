@@ -36,6 +36,7 @@ export default function MatchCard({ match }: MatchCardProps) {
                 fill
                 sizes="32px"
                 className="object-contain"
+                unoptimized
               />
             </div>
             <span className="mx-2 font-bold">{match.teams.teamA}</span>
@@ -50,6 +51,7 @@ export default function MatchCard({ match }: MatchCardProps) {
                 fill
                 sizes="32px"
                 className="object-contain"
+                unoptimized
               />
             </div>
           </div>
