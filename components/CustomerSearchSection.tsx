@@ -177,15 +177,15 @@ export default function CustomerSearchSection() {
                     {new Date(prediction.created_at).toLocaleString('th-TH')}
                   </td>
                   <td className="px-4 py-2 text-black">
-                    <div className="flex items-center gap-2">
+                    <div className={`flex items-center gap-2 ${prediction.coupon === 1 ? 'text-green-600' : 'text-black'}`}>
                       <select
                         value={prediction.coupon?.toString() || '0'}
                         onChange={(e) => handleCouponChange(prediction.id, e.target.value)}
                         disabled={updatingCouponId === prediction.id}
-                        className="px-2 py-1 rounded border border-gray-300 bg-white text-black"
+                        className={`px-2 py-1 rounded border border-gray-300 bg-white ${prediction.coupon === 1 ? 'text-green-600' : 'text-black'}`}
                       >
-                        <option value="0">ยังไม่ได้รับ</option>
-                        <option value="1">ได้รับแล้ว</option>
+                        <option value="0" className="text-black">ยังไม่ได้รับ</option>
+                        <option value="1" className="text-green-600">ได้รับแล้ว</option>
                       </select>
                       {updatingCouponId === prediction.id && (
                         <span className="text-xs text-blue-500">กำลังอัพเดท...</span>

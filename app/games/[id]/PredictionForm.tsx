@@ -90,19 +90,41 @@ export default function PredictionForm({ matchId, teamNames, matchTime }: Predic
   }
 
   const checkExistingPrediction = async (matchId: number, phoneNumber: string) => {
+    // แปลง matchTime เป็น Date object
+    const matchDate = new Date(matchTime)
+    const startOfDay = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate())
+    const endOfDay = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate() + 1)
+
+    // ดึงข้อมูลการทายทั้งหมดของวันนั้น
     const { data, error } = await supabase
       .from('MatchPredict')
-      .select('id, team_a, team_b')
-      .eq('match_id', matchId)
+      .select('id, team_a, team_b, submission_time')
       .eq('phone_number', phoneNumber)
-      .single()
+      .gte('submission_time', startOfDay.toISOString())
+      .lt('submission_time', endOfDay.toISOString())
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 means no rows found
+    if (error) {
       console.error('Error checking prediction:', error)
       throw new Error('ไม่สามารถตรวจสอบข้อมูลได้')
     }
 
-    return data
+    // ถ้ามีข้อมูลการทายในวันนั้น
+    if (data && data.length > 0) {
+      // เช็คว่าเป็นแมตช์เดิมหรือไม่
+      const sameMatch = data.find(prediction => prediction.id === matchId)
+      if (sameMatch) {
+        return sameMatch
+      }
+      // ถ้าเป็นแมตช์อื่นในวันเดียวกัน
+      return {
+        id: data[0].id,
+        team_a: data[0].team_a,
+        team_b: data[0].team_b,
+        isOtherMatch: true
+      }
+    }
+
+    return null
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -116,7 +138,11 @@ export default function PredictionForm({ matchId, teamNames, matchTime }: Predic
       // Check for existing prediction first
       const existing = await checkExistingPrediction(matchId, phoneNumber)
       if (existing) {
-        setError(`คุณได้ทำนายผลการแข่งขัน ${existing.team_a} VS ${existing.team_b} ไปแล้ว`)
+        if ('isOtherMatch' in existing && existing.isOtherMatch) {
+          setError(`คุณได้ทำนายผลการแข่งขันของแมตช์ ${existing.team_a} VS ${existing.team_b} ในวันนี้ไปแล้ว คุณสามารถทำนายแมตช์ที่แข่งขันในวันเดียวกันได้เพียง 1 แมตช์เท่านั้น`)
+        } else {
+          setError(`คุณได้ทำนายผลการแข่งขัน ${existing.team_a} VS ${existing.team_b} ไปแล้ว`)
+        }
         return
       }
 
